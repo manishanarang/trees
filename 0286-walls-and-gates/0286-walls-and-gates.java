@@ -13,6 +13,7 @@ class Solution {
             for(int j = 0; j <n; j++){
                 if(rooms[i][j] == 0) {
                     queue.add(List.of(i,j));
+                    visited[i][j] = true;
                 }
             }
         }
@@ -29,9 +30,10 @@ class Solution {
                     int new_row = row + dir_x[k];
                     int new_col = col + dir_y[k];
 
-                    if(isValid(new_row, new_col, m, n, rooms)){
-                        rooms[new_row][new_col] = Math.min(rooms[row][col] + 1, rooms[new_row][new_col]);
+                    if(isValid(new_row, new_col, m, n, visited, rooms)){
+                        rooms[new_row][new_col] = rooms[row][col] + 1;
                         queue.add(List.of(new_row, new_col));
+                        visited[new_row][new_col] = true;
                     }
                 }
                 
@@ -39,8 +41,8 @@ class Solution {
         }
     }
 
-    public boolean isValid(int r, int c, int m,int n, int[][] rooms){
+    public boolean isValid(int r, int c, int m,int n, boolean[][] visited, int[][] rooms){
         return (r<m && c<n && r>=0 && c>=0 && 
-         rooms[r][c]== 2147483647);
+        visited[r][c] == false && rooms[r][c]== 2147483647);
     }
 }
